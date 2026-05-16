@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Resume Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Smart Resume Analyzer</h1>
+    <p>Upload your resume and compare it with a job description.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <label>Upload Resume PDF</label>
+        <input type="file" name="resume" accept=".pdf" required>
+
+        <label>Paste Job Description</label>
+        <textarea name="jobdesc" rows="8" required></textarea>
+
+        <button type="submit">Analyze Resume</button>
+    </form>
+
+    {% if result %}
+    <div class="result">
+        <h2>Analysis Result</h2>
+
+        <h3>ATS Match Score: {{ result.score }}%</h3>
+        <h3>Status: {{ result.status }}</h3>
+
+        <h4>Skills Found in Resume:</h4>
+        <p>{{ result.resume_skills }}</p>
+
+        <h4>Skills Required in Job:</h4>
+        <p>{{ result.job_skills }}</p>
+
+        <h4>Missing Skills:</h4>
+        {% if result.missing_skills %}
+            <p class="missing">{{ result.missing_skills }}</p>
+        {% else %}
+            <p class="good">No major missing skills found.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
